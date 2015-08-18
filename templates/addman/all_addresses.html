@@ -1,0 +1,11 @@
+{% if all_addresses_list %}
+	<table>
+	{% for address in all_addresses_list %}
+		<tr>
+			<td>{{ address.user_input }}</td>
+		</tr>
+	{% endfor %}
+	</table>
+{% else %}
+	<p>No addresses are available.</p>
+{% endif %}
