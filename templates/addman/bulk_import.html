@@ -1,0 +1,10 @@
+This is the bulk import page.
+
+<form action="{% url 'addman:bulk_import' %}" method="post">
+{% csrf_token %}
+
+{{ form }}
+
+<input type="submit" value="Import" />
+
+</form>
