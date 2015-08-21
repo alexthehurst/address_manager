@@ -68,12 +68,6 @@ class BulkImportViewTests(TestCase):
 			data={'bulk_addresses': 501*(self.sample_address + '\n')}
 		)
 		self.assertContains(response, 'Sorry, bulk imports are limited to 500 rows per round.')
-	def test_bulk_import_too_many_chars_gives_error(self):
-		"""
-		The 40,000 character limit is generous. If there's more than that
-		many chars, something is wrong.
-		"""
-		raise RuntimeError, "This test hasn't been written."
 	def test_bulk_import_posting_data_works(self):
 		"""
 		POSTing some bulk address data should create DB records.
