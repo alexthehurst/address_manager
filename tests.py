@@ -59,6 +59,15 @@ class BulkImportViewTests(TestCase):
 		self.assertContains(response, 
 			'Paste up to 500 addresses here, one per line.', 
 			status_code=200)
+	def test_bulk_import_too_many_lines_restores_user_input_to_form(self):
+		"""
+		If a user submits a too-long form, not only should the error message show, but
+		the form should be repopulated with the user's input so they can edit it.
+		"""
+		response = self.client.post(reverse('addman:bulk_import'),
+			data={'bulk_addresses': 501*(self.sample_address + '\n')}
+		)
+		self.assertTrue('bulk_addresses' in response.context['form'].data.keys())
 	def test_bulk_import_too_many_lines_gives_error(self):
 		"""
 		If there are more than 500 addresses, the bulk importer should 
@@ -72,12 +81,18 @@ class BulkImportViewTests(TestCase):
 		"""
 		POSTing some bulk address data should create DB records.
 		"""
-		self.assertContains(response, "necessary response text",
-					status_code=302)
-		raise RuntimeError, "This test hasn't been written."
+		response = self.client.post(reverse('addman:bulk_import'),
+			data={'bulk_addresses': 10*(self.sample_address + '\n')}
+		)
+		self.assertEqual(len(Address.objects.all()), 10)
 	def test_bulk_import_posting_multiple_times_adds_data(self):
 		"""
 		POSTing bulk addresses when address data already exists should add, not overwrite.
 		"""
-		raise RuntimeError, "This test hasn't been written."
-	
+		response = self.client.post(reverse('addman:bulk_import'),
+			data={'bulk_addresses': 10*(self.sample_address + '\n')}
+		)
+		response = self.client.post(reverse('addman:bulk_import'),
+			data={'bulk_addresses': 10*(self.sample_address + '\n')}
+		)
+		self.assertEqual(len(Address.objects.all()), 20)
