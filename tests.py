@@ -64,10 +64,10 @@ class BulkImportViewTests(TestCase):
 		If there are more than 500 addresses, the bulk importer should 
 		give an error.
 		"""
-		import pdb; pdb.set_trace()
 		response = self.client.post(reverse('addman:bulk_import'),
 			data={'bulk_addresses': 501*(self.sample_address + '\n')}
 		)
+		self.assertContains(response, 'Sorry, bulk imports are limited to 500 rows per round.')
 	def test_bulk_import_too_many_chars_gives_error(self):
 		"""
 		The 40,000 character limit is generous. If there's more than that
