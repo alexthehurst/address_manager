@@ -24,4 +24,5 @@ def bulk_import_view(request):
 			return HttpResponseRedirect(reverse('addman:all_addresses'))
 	else:
 		form = BulkImportForm()
-	return render(request, 'addman/bulk_import.html', {'form': form})
+	import pdb; pdb.set_trace()
+	return render(request, 'addman/bulk_import.html', context={'form': form, 'error_msg': 'Please enter 500 or fewer addresses.',})

@@ -1,4 +1,10 @@
-This is the bulk import page.
+This is the bulk import page. Glad to see you here.
+{{ error_msg }}
+
+{% if error_msg %}
+<strong>{{ error_msg }}</strong>
+There should be an error message here.
+{% endif %}
 
 <form action="{% url 'addman:bulk_import' %}" method="post">
 {% csrf_token %}
