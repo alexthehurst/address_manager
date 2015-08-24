@@ -18,21 +18,8 @@ class AllAddressesView(generic.ListView):
 def bulk_import_view(request):
 	if request.method=='POST':
 		form = BulkImportForm(request.POST)
-		# error_msg = None
-		#if not(form.is_valid()):
-	#		error_msg = "The form submitted was invalid."
-			# Here we want to return to the bulk_import form with an error_msg.
-		#elif 'bulk_addresses' not in form.cleaned_data:
-		#	error_msg = 'Please supply one or more addresses.'
 		if not form.is_valid():
 			return render(request, 'addman/bulk_import.html', context={'form': form, })
-		#else:	
-		# try:
-		# 	user_lines = form.cleaned_data['bulk_addresses'].strip().split('\n')
-		# except KeyError:
-		# 	error_msg = "Please try again with some input in the form."
-		# if len(user_lines) > 500:
-		# 	error_msg = "Sorry, bulk imports are limited to 500 rows per round."
 		else:
 		 	user_lines = form.cleaned_data['bulk_addresses'].strip().split('\n')
 			for line in user_lines:
