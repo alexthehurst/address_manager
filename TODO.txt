@@ -1,0 +1,8 @@
+Add set associations to the Address model
+Add set filtering to the all_addresses view
+Create an address detail page
+Add verification to the Address model
+Add the ability to delete addresses
+
+User accounts
+Set management
