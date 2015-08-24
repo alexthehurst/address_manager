@@ -34,12 +34,13 @@ def bulk_import_view(request):
 		# if len(user_lines) > 500:
 		# 	error_msg = "Sorry, bulk imports are limited to 500 rows per round."
 		else:
-			try:
-				for line in user_lines:
+		 	user_lines = form.cleaned_data['bulk_addresses'].strip().split('\n')
+			for line in user_lines:
+				try:
 					Address.objects.create(user_input=line)
-			except:
-				notice = "There was an error importing addresses. The import was stopped at '%s'." % line
-				return render(request, 'addman/bulk_import.html', context={'form': form, })
+				except:
+					notice = "There was an error importing addresses. The import was stopped at '%s'." % line
+					return render(request, 'addman/bulk_import.html', context={'form': form, })
 			notice = "Thanks for the submission. Those addresses have been imported."
 			return HttpResponseRedirect(reverse('addman:all_addresses'), )
 	
