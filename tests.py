@@ -76,7 +76,7 @@ class BulkImportViewTests(TestCase):
 		response = self.client.post(reverse('addman:bulk_import'),
 			data={'bulk_addresses': 501*(self.sample_address + '\n')}
 		)
-		self.assertContains(response, 'Sorry, bulk imports are limited to 500 rows per round.')
+		self.assertContains(response, 'Too many records. Please provide 500 or fewer lines of address data at once')
 	def test_bulk_import_posting_data_works(self):
 		"""
 		POSTing some bulk address data should create DB records.
@@ -96,3 +96,11 @@ class BulkImportViewTests(TestCase):
 			data={'bulk_addresses': 10*(self.sample_address + '\n')}
 		)
 		self.assertEqual(len(Address.objects.all()), 20)
+	def test_bulk_import_with_no_entry_gives_error(self):
+		"""
+		POSTing a bulk address form with no data should keep you on the same page, with 
+		an error message.
+		"""
+		response = self.client.post(reverse('addman:bulk_import'),
+			data={'bulk_addresses': ''})
+		self.assertContains(response, 'This field is required.')
