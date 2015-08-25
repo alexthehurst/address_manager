@@ -1,5 +1,7 @@
 [x] Add set associations to the Address model
-[_] Add the set name to the all_addresses view
+[x] Add the set name to the all_addresses view
+[_] Add AddressSet to the bulk_import form
+[_] Update tests for the bulk_import form to accommodate for AddressSet.
 [_] Add set filtering to the all_addresses view
 [_] Create an address detail page
 [_] Add verification to the Address model
