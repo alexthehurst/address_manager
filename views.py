@@ -24,7 +24,7 @@ def bulk_import_view(request):
 		 	user_lines = form.cleaned_data['bulk_addresses'].strip().split('\n')
 			for line in user_lines:
 				try:
-					Address.objects.create(user_input=line)
+					Address.objects.create(user_input=line, address_set_id=form.cleaned_data['address_set_select'].pk)
 				except:
 					notice = "There was an error importing addresses. The import was stopped at '%s'." % line
 					return render(request, 'addman/bulk_import.html', context={'form': form, })

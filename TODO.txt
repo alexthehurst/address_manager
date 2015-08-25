@@ -1,7 +1,8 @@
 [x] Add set associations to the Address model
 [x] Add the set name to the all_addresses view
-[_] Add AddressSet to the bulk_import form
-[_] Update tests for the bulk_import form to accommodate for AddressSet.
+[x] Add AddressSet to the bulk_import form
+[.] Update tests for the bulk_import form to accommodate for AddressSet.
+[_] Hook up the notices in the bulk_import view
 [_] Add set filtering to the all_addresses view
 [_] Create an address detail page
 [_] Add verification to the Address model
@@ -9,3 +10,5 @@
 
 User accounts
 Set management
+
+Why does posting a form with data includint address_set act the same as address_set.pk?

@@ -47,7 +47,7 @@ class ModelRelationshipTests(AddmanBaseTestCase):
 		the creation_time should be right now.
 		"""
 		before_time = timezone.now()
-		address = create_address()
+		address = self.create_address()
 		self.assertLess(before_time, address.creation_time)
 		self.assertLess(address.creation_time, timezone.now())
 
@@ -92,8 +92,10 @@ class BulkImportViewTests(AddmanBaseTestCase):
 		If a user submits a too-long form, not only should the error message show, but
 		the form should be repopulated with the user's input so they can edit it.
 		"""
+                address_set = self.create_address_set()
 		response = self.client.post(reverse('addman:bulk_import'),
-			data={'bulk_addresses': 501*(self.sample_address + '\n')}
+			data={'bulk_addresses': 501*(self.sample_address + '\n'),
+                                'address_set_select': address_set.pk}
 		)
 		self.assertTrue('bulk_addresses' in response.context['form'].data.keys())
 	def test_bulk_import_too_many_lines_gives_error(self):
@@ -109,19 +111,27 @@ class BulkImportViewTests(AddmanBaseTestCase):
 		"""
 		POSTing some bulk address data should create DB records.
 		"""
+                address_set = self.create_address_set()
 		response = self.client.post(reverse('addman:bulk_import'),
-			data={'bulk_addresses': 10*(self.sample_address + '\n')}
+			data={'bulk_addresses': 10*(self.sample_address + '\n'),
+                                'address_set_select': address_set.pk,
+                        }
 		)
 		self.assertEqual(len(Address.objects.all()), 10)
 	def test_bulk_import_posting_multiple_times_adds_data(self):
 		"""
 		POSTing bulk addresses when address data already exists should add, not overwrite.
 		"""
+                address_set = self.create_address_set()
 		response = self.client.post(reverse('addman:bulk_import'),
-			data={'bulk_addresses': 10*(self.sample_address + '\n')}
+			data={'bulk_addresses': 10*(self.sample_address + '\n'),
+                                'address_set_select': address_set.pk,
+                        }
 		)
 		response = self.client.post(reverse('addman:bulk_import'),
-			data={'bulk_addresses': 10*(self.sample_address + '\n')}
+			data={'bulk_addresses': 10*(self.sample_address + '\n'),
+                                'address_set_select': address_set.pk,
+                        }
 		)
 		self.assertEqual(len(Address.objects.all()), 20)
 	def test_bulk_import_with_no_entry_gives_error(self):

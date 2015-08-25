@@ -1,10 +1,10 @@
 {% if all_addresses_list %}
 	<table border=1>
-		<th>
-			<td>User input</td>
-			<td>Creation time</td>
-			<td>Address set</td>
-		</th>
+		<tr>
+			<th>User input</th>
+			<th>Creation time</th>
+			<th>Address set</th>
+		</tr>
 	{% for address in all_addresses_list %}
 		<tr>
 			<td>{{ address.user_input }}</td>

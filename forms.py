@@ -1,5 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
+from models import AddressSet
 
 def validate_bulk_import_max_records(bulk_addresses):
 	if len(bulk_addresses.strip().split('\n')) > 500:
@@ -16,3 +17,8 @@ class BulkImportForm(forms.Form):
 		validators=[validate_bulk_import_max_records],
 
 	)
+        address_set_select = forms.ModelChoiceField(
+                label="Which set should these addresses be imported to?",
+                queryset=AddressSet.objects.all(),
+                empty_label='Address Set:',
+        )
