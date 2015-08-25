@@ -1,31 +1,58 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
-from .models import Address
+from .models import Address, AddressSet
 from django.utils import timezone
 import datetime
 
 # Create your tests here.
 
-class AddressMethodTests(TestCase):
+class AddmanBaseTestCase(TestCase):
+	def create_address_set(self):
+		return AddressSet.objects.create(set_name='Set 1', id=1)
+        def create_address(self,
+                user_input= "13749 Sylvan St. #1, Ellwood, CO 45371",
+                address_set_id=1):
+		return Address.objects.create(
+			user_input=user_input,
+			address_set_id=address_set_id)
+    
+class ModelRelationshipTests(AddmanBaseTestCase):
+	def test_can_create_address_set(self):
+		"""
+		It should be possible to save an address_set to the DB.
+		Also, the creation_time for the address_set should default to
+		now.
+		"""
+		before_time = timezone.now()
+		address_set = self.create_address_set()
+                self.assertEqual(len(AddressSet.objects.all()), 1)
+                self.assertGreater(address_set.creation_time,
+                            timezone.now() - datetime.timedelta(seconds=1))
+
+                address = self.create_address()
+                self.assertEqual(len(Address.objects.all()), 1)
+                address2 = self.create_address()
+                self.assertEqual(len(Address.objects.all()), 2)
+                self.assertGreater(address2.creation_time,
+                            timezone.now() - datetime.timedelta(seconds=1))
 	def test_can_create_address(self):
 		"""
 		It should be possible to save an address to the DB.
 		"""
-		address=Address.objects.create(user_input=
-			"13749 Sylvan St. #1, Ellwood, CO 45371")
+		address_set = self.create_address_set()
+		address = self.create_address()
 	def test_address_creation_time_defaults_to_now(self):
 		"""
 		When an address is created with no creation_time, 
 		the creation_time should be right now.
 		"""
 		before_time = timezone.now()
-		address=Address.objects.create(user_input=
-			"13749 Sylvan St. #1, Ellwood, CO 45371")
+		address = create_address()
 		self.assertLess(before_time, address.creation_time)
 		self.assertLess(address.creation_time, timezone.now())
 
 
-class AllAddressViewTests(TestCase):
+class AllAddressViewTests(AddmanBaseTestCase):
 	def test_all_address_view_loads_when_no_data(self):
 	 	"""
 	 	When there aren't any addresses, all_address_view should show 
@@ -39,16 +66,17 @@ class AllAddressViewTests(TestCase):
 		When there are addresses, all_address_view should show all of 
 		them.
 		"""
-		address=Address.objects.create(user_input=
+		address_set = self.create_address_set()
+		address1=self.create_address(user_input=
 			"13749 Sylvan St. #1, Ellwood, CO 45371")
-		address=Address.objects.create(user_input=
+		address2=self.create_address(user_input=
 			"12345 Moo St. #48, Higgledypufftown, AK 90210")
 		response = self.client.get(reverse('addman:all_addresses'))
 		self.assertContains(response, "13749", status_code=200) 
 		self.assertContains(response, "12345", status_code=200) 
 
 
-class BulkImportViewTests(TestCase):
+class BulkImportViewTests(AddmanBaseTestCase):
 	sample_address = "54321 Main St. #42, Anytown, MA 12345"
 	def test_bulk_import_view_with_get_shows_input_form(self):
 		"""

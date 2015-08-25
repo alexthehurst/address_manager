@@ -1,9 +1,15 @@
 {% if all_addresses_list %}
 	<table border=1>
+		<th>
+			<td>User input</td>
+			<td>Creation time</td>
+			<td>Address set</td>
+		</th>
 	{% for address in all_addresses_list %}
 		<tr>
 			<td>{{ address.user_input }}</td>
 			<td>{{ address.creation_time }}</td>
+			<td>{{ address.address_set }}</td>
 		</tr>
 	{% endfor %}
 	</table>

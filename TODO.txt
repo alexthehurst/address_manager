@@ -1,8 +1,9 @@
-Add set associations to the Address model
-Add set filtering to the all_addresses view
-Create an address detail page
-Add verification to the Address model
-Add the ability to delete addresses
+[x] Add set associations to the Address model
+[_] Add the set name to the all_addresses view
+[_] Add set filtering to the all_addresses view
+[_] Create an address detail page
+[_] Add verification to the Address model
+[_] Add the ability to delete addresses
 
 User accounts
 Set management
