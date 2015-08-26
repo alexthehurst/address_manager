@@ -165,7 +165,12 @@ class MoreBulkImportViewTests(AddmanBaseTestCase):
 		"""
 		address_set = self.create_address_set()
         #import pdb; pdb.set_trace()
-		response = self.client.post(reverse('addman:bulk_import'), data={'bulk_addresses': 1001*'F', 'address_set_select': address_set.pk },
+		response = self.client.post(
+                        reverse('addman:bulk_import'), 
+                        data={
+                            'bulk_addresses': 1001*'F', 
+                            'address_set_select': address_set.pk,
+                        },
                         follow=True,
                 )
 		self.assertContains(response, 'There was an error importing addresses.')
