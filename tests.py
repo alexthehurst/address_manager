@@ -164,11 +164,10 @@ class MoreBulkImportViewTests(AddmanBaseTestCase):
                 page, with an error message.
 		"""
 		address_set = self.create_address_set()
-        #import pdb; pdb.set_trace()
 		response = self.client.post(
-                        reverse('addman:bulk_import'), 
+                        reverse('addman:bulk_import'),
                         data={
-                            'bulk_addresses': 1001*'F', 
+                            'bulk_addresses': 1001*'F',
                             'address_set_select': address_set.pk,
                         },
                         follow=True,
