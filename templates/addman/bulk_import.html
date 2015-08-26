@@ -1,7 +1,9 @@
 <p>This is the bulk import page.</p>
 
-{% if error_msg %}
-<p><strong>{{ error_msg }}</strong></p>
+{% if messages %}
+    {% for message in messages %}
+        <p><strong>{{ message }}</strong></p>
+    {% endfor %}
 {% endif %}
 
 <form action="{% url 'addman:bulk_import' %}" method="post">
