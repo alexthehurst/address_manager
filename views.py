@@ -21,29 +21,32 @@ def bulk_import_view(request):
 		form = BulkImportForm(request.POST)
 		if not form.is_valid():
 			return render(request,
-                          'addman/bulk_import.html',
-                           context={'form': form, })
+						  'addman/bulk_import.html',
+						   context={'form': form, })
 		else:
-		 	user_lines = form.cleaned_data['bulk_addresses'].strip().split('\n')
+			user_bulk_import = form.cleaned_data['bulk_addresses']
+			user_lines = user_bulk_import.strip().split('\n')
+			address_set_id = form.cleaned_data['address_set_select'].pk
 			for line in user_lines:
 				try:
 					Address.objects.create(user_input=line,
-                        address_set_id = form.cleaned_data['address_set_select'].pk
-                    )
+						address_set_id = address_set_id
+					)
 				except:
-					messages.error(request, "There was an error importing addresses."
-                        "The import was stopped at '%s'." % line)
+					messages.error(request, "There was an error"
+						"importing addresses. The import was"
+						"stopped at:\n'%s'." % line)
 					return render(request,
-                            'addman/bulk_import.html',
-                            context={'form': form, },
-                    )
+							'addman/bulk_import.html',
+							context={'form': form, },
+					)
 			messages.success(request, "Thanks for the submission."
-                    "Those addresses have been imported.")
+					"Those addresses have been imported.")
 			return HttpResponseRedirect(reverse('addman:all_addresses'))
 	
 	else: # GET
 		form = BulkImportForm()
 		return render(request,
-                'addman/bulk_import.html',
-                context={'form': form,}
-        )
+				'addman/bulk_import.html',
+				context={'form': form,}
+		)
