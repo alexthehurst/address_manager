@@ -41,3 +41,11 @@ class BulkImportForm(forms.Form):
                 queryset=AddressSet.objects.all(),
                 empty_label='Address Set:',
         )
+
+class AddressSetSelectForm(forms.Form):
+
+        address_set_select = forms.ModelChoiceField(
+                label="Which set of addresses would you like to view?",
+                queryset=AddressSet.objects.all(),
+                empty_label='Address Set:',
+        )
