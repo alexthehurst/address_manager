@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views import generic
 from .models import Address
-from .forms import BulkImportForm
+from .forms import BulkImportForm, AddressSetSelectForm
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib import messages
@@ -12,9 +12,12 @@ class AllAddressesView(generic.ListView):
 	template_name = 'addman/all_addresses.html'
 	context_object_name = 'all_addresses_list'
 	def get_queryset(self):
-
 		"""Return all the addresses in the database."""
 		return Address.objects.all()
+    def get_context_data(self, **kwargs):
+        context = super(AllAddressesView, self).get_context_data(**kwargs)
+        context['address_set_select_form'] = AddressSetSelectForm() #unbound
+        return context
 
 def bulk_import_view(request):
 	if request.method=='POST':
