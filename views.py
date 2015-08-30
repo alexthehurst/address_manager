@@ -15,6 +15,8 @@ class AllAddressesView(generic.ListView):
         """Return all the addresses in the database."""
         return Address.objects.all()
     def get_context_data(self, **kwargs):
+        #per https://docs.djangoproject.com/en/1.8/topics/class-based-views/generic-display/
+        context = super(AllAddressesView, self).get_context_data(**kwargs)
         context['address_set_select_form'] = AddressSetSelectForm() #unbound
         return context
 
