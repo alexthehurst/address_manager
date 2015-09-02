@@ -5,9 +5,12 @@
 {% endif %}
 
 <form action="{% url 'addman:all_addresses' %}" method="get">
+
 {{ address_set_select_form }}
+
 <input type="submit" value="Change" />
 </form>
+
 {% if all_addresses_list %}
 	<table border=1>
 		<tr>

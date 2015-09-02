@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 from .models import Address, AddressSet
 from django.utils import timezone
-import datetime
+import datetime, unittest
 
 # Create your tests here.
 
@@ -158,6 +158,7 @@ class MoreBulkImportViewTests(AddmanBaseTestCase):
 
 	sample_address = "54321 Main St. #42, Anytown, MA 12345"
 
+	@unittest.skip("Currently can't test for address creation errors, because we can't really create them")
 	def test_bulk_import_with_exception_gives_error(self):
 		"""
                 POSTing addresses which fail to import for any reason should keep you on the same
