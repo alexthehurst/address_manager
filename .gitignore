@@ -58,4 +58,5 @@ target/
 
 # vim
 *.swp
+*.swo
 *.un~
