@@ -12,8 +12,16 @@ class AllAddressesView(generic.ListView):
     template_name = 'addman/all_addresses.html'
     context_object_name = 'all_addresses_list'
     def get_queryset(self):
-        """Return all the addresses in the database."""
-        return Address.objects.all()
+        """Return all the addresses in the database by default, or only the
+        ones in the specified set."""
+        request = self.request
+        form = AddressSetSelectForm(request.GET)
+        if not form.is_valid():
+            pass #TODO: set an error message
+            return Address.objects.all()
+        else:
+            return Address.objects.filter(address_set_id = \
+                form.cleaned_data['address_set_select'])
     def get_context_data(self, **kwargs):
         #per https://docs.djangoproject.com/en/1.8/topics/class-based-views/generic-display/
         context = super(AllAddressesView, self).get_context_data(**kwargs)
