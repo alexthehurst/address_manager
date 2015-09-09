@@ -14,12 +14,14 @@
 {% if all_addresses_list %}
 	<table border=1>
 		<tr>
+			<th>Address ID</th>
 			<th>User input</th>
 			<th>Creation time</th>
 			<th>Address set</th>
 		</tr>
 	{% for address in all_addresses_list %}
 		<tr>
+			<td>{{ address.pk }}</td>
 			<td>{{ address.user_input }}</td>
 			<td>{{ address.creation_time }}</td>
 			<td>{{ address.address_set }}</td>
