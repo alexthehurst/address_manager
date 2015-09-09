@@ -4,8 +4,9 @@
 [_] Break up unittests to provide more granularity in test reporting
 [.] Update tests for the bulk_import form to accommodate for AddressSet.
 [_] Hook up the notices in the bulk_import view
-[_] Add set filtering to the all_addresses view
-[_] Create an address detail page
+[x] Add set filtering to the all_addresses view
+[x] Stub out  an address detail page
+[_] Flesh out the address detail page
 [_] Add verification to the Address model
 [_] Add the ability to delete addresses
 

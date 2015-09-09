@@ -7,6 +7,9 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 
 # Create your views here.
+class AddressDetailView(generic.DetailView):
+    model = Address
+    template_name = 'addman/detail.html'
 
 class AllAddressesView(generic.ListView):
     template_name = 'addman/all_addresses.html'
@@ -33,8 +36,8 @@ def bulk_import_view(request):
         form = BulkImportForm(request.POST)
         if not form.is_valid():
             return render(request,
-    					  'addman/bulk_import.html',
-    					   context={'form': form, })
+                          'addman/bulk_import.html',
+                           context={'form': form, })
         else:
             user_bulk_import = form.cleaned_data['bulk_addresses']
             user_lines = user_bulk_import.strip().split('\n')
@@ -55,7 +58,7 @@ def bulk_import_view(request):
             messages.success(request, "Thanks for the submission."
                   "Those addresses have been imported.")
             return HttpResponseRedirect(reverse('addman:all_addresses'))
-    
+
     else: # GET
         form = BulkImportForm()
         return render(request,
