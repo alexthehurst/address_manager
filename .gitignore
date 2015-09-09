@@ -60,3 +60,6 @@ target/
 *.swp
 *.swo
 *.un~
+
+# utility cruft
+hardcopy.\d
