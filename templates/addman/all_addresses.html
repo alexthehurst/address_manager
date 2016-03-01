@@ -1,33 +1,51 @@
-{% if messages %}
-    {% for message in messages %}
-        <p><strong>{{ message }}</strong></p>
-    {% endfor %}
-{% endif %}
+{% extends "addman/base.html" %}
 
-<form action="{% url 'addman:all_addresses' %}" method="get">
+{% block title %}
+    All Addresses
+{% endblock %}
 
-{{ address_set_select_form }}
+{% block page_content %}
 
-<input type="submit" value="Change" />
-</form>
+    {% if messages %}
+        {% for message in messages %}
+            <p><strong>{{ message }}</strong></p>
+        {% endfor %}
+    {% endif %}
 
-{% if all_addresses_list %}
-	<table border=1>
-		<tr>
-			<th>Address ID</th>
-			<th>User input</th>
-			<th>Creation time</th>
-			<th>Address set</th>
-		</tr>
-	{% for address in all_addresses_list %}
-		<tr>
-			<td>{{ address.pk }}</td>
-			<td>{{ address.user_input }}</td>
-			<td>{{ address.creation_time }}</td>
-			<td>{{ address.address_set }}</td>
-		</tr>
-	{% endfor %}
-	</table>
-{% else %}
-	<p>No addresses are available.</p>
-{% endif %}
+
+
+    <form action="{% url 'addman:all_addresses' %}" method="get">
+
+        <div class="form-group">
+
+            {{ address_set_select_form }}
+        </div>
+
+
+        <input type="submit" class="btn btn-primary" value="Change"/>
+    </form>
+
+    {% if all_addresses_list %}
+        <table class='table table-striped'>
+            <tbody>
+            <tr>
+                <th>Address ID</th>
+                <th>User input</th>
+                <th>Creation time</th>
+                <th>Address set</th>
+            </tr>
+            {% for address in all_addresses_list %}
+                <tr>
+                    <td>{{ address.pk }}</td>
+                    <td>{{ address.user_input }}</td>
+                    <td>{{ address.creation_time }}</td>
+                    <td>{{ address.address_set }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No addresses are available.</p>
+    {% endif %}
+
+{% endblock %}

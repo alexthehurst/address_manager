@@ -1,0 +1,31 @@
+{% extends "addman/base.html" %}
+
+{% block title %}
+    Address Detail
+{% endblock %}
+
+{% block page_content %}
+    <h1>Address {{ address.id }}</h1>
+    <ul>
+        <li>
+            User input: {{ address.user_input }}
+        </li>
+        <li>
+            Date created: {{ address.creation_time }}
+        </li>
+        <li>
+            Address set: {{ address.address_set }}
+        </li>
+    <li>
+        Validated: {{ address.is_validated|yesno }}
+    </li>
+    </ul>
+    <form method="post" action="{% url 'addman:update_address' address.id %}">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ address_update_form }}
+        </div>
+
+        <input type="submit" class="btn btn-primary" value="Change"/>
+    </form>
+{% endblock %}

@@ -1,16 +1,30 @@
-<p>This is the bulk import page.</p>
+{% extends "addman/base.html" %}
 
-{% if messages %}
-    {% for message in messages %}
-        <p><strong>{{ message }}</strong></p>
-    {% endfor %}
-{% endif %}
+{% block title %}
+    Address Import
+{% endblock %}
 
-<form action="{% url 'addman:bulk_import' %}" method="post">
-{% csrf_token %}
+{% block page_content %}
 
-{{ form }}
+    <p>This is the bulk import page.</p>
 
-<input type="submit" value="Import" />
+    {% if messages %}
+        {% for message in messages %}
+            <p><strong>{{ message }}</strong></p>
+        {% endfor %}
+    {% endif %}
 
-</form>
+    <form action="{% url 'addman:bulk_import' %}" method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+
+            {{ form }}
+
+        </div>
+
+        <input type="submit" class="btn btn-primary" value="Import"/>
+
+    </form>
+
+{% endblock %}
