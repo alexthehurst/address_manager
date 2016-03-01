@@ -1,6 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from models import AddressSet
+from addman.models import AddressSet
 
 
 def validate_bulk_import_max_records(bulk_addresses):

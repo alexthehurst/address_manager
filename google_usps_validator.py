@@ -1,8 +1,7 @@
-from addman.models import Address
-# Why can't I import Address here? (try Running to see the error)
+
 
 class GoogleUspsValidator(object):
-    def __init__(self, address: Address):
+    def __init__(self, address: str):
         self.address = address
 
     def validate(self):
