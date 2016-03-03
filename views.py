@@ -21,6 +21,12 @@ class AddressDetailView(generic.DetailView):
         return context
 
 
+def validate(request, pk):
+    address = get_object_or_404(Address, pk=pk)
+    address.validate()
+    return HttpResponseRedirect(reverse('addman:address_detail',
+                                            args=(address.id,)))
+
 
 def update_address(request, pk):
     if request.method == 'POST':

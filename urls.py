@@ -23,5 +23,10 @@ urlpatterns = [
         name='all_addresses'
     ),
 
+    url(r'^validate/(?P<pk>[0-9]+)/$',
+        views.validate,
+        name='validate'
+        ),
+
 	url(r'^bulk_import/', views.bulk_import_view, name='bulk_import'),
 ]

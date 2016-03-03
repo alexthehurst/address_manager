@@ -50,20 +50,25 @@ class Address(models.Model):
     is_validated = models.BooleanField(default=False)
 
     def __str__(self):
-        return (self.user_input)
+        return self.user_input
 
-    def validate(self, validator=GoogleUspsValidator):
+    def validate(self):
+        validator = GoogleUspsValidator()
+        result = validator.validate(self.user_input)
 
-        processed_address = validator(self)
-        processed_address.validate()
-
-        self.street = processed_address.data['street']
-        self.city = processed_address.data['city']
-        self.state = processed_address.data['state']
-        self.zip = processed_address.data['zip']
-
-        self.validation_message = processed_address.message
-        self.status = processed_address.status
-
+        self.city = result['status']
+        self.message = result['message']
+        if self.city in ['CONDITIONAL', 'MAPPED']:
+            self.street = result['address']['formatted_address']
+        else:
+            self.street = 'not found yet'
+        self.save()
 
 
+        # self.street = processed_address.data['street']
+        # self.city = processed_address.data['city']
+        # self.state = processed_address.data['state']
+        # self.zip = processed_address.data['zip']
+        #
+        # self.validation_message = processed_address.message
+        # self.status = processed_address.status
