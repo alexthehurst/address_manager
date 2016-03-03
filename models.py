@@ -53,15 +53,15 @@ class Address(models.Model):
         return self.user_input
 
     def validate(self):
-        validator = GoogleUspsValidator()
-        result = validator.validate(self.user_input)
+        validator = GoogleUspsValidator(self.user_input)
+        result = validator.validate()
 
-        self.city = result['status']
-        self.message = result['message']
-        if self.city in ['CONDITIONAL', 'MAPPED']:
-            self.street = result['address']['formatted_address']
+        self.status = validator.status
+        self.message = validator.message
+        if self.status in ['MAPPED_PARTIAL', 'MAPPED']:
+            self.street = validator.address['formatted_address']
         else:
-            self.street = 'not found yet'
+            self.street = self.message
         self.save()
 
 
@@ -72,3 +72,13 @@ class Address(models.Model):
         #
         # self.validation_message = processed_address.message
         # self.status = processed_address.status
+
+    def set_user_input(self, user_input):
+        self.user_input = user_input
+        self.status = self.UNPARSED
+        self.is_validated = False
+        self.street = ''
+        self.city = ''
+        self.state = ''
+        self.zip = ''
+        self.save()

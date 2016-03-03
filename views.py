@@ -31,9 +31,7 @@ def validate(request, pk):
 def update_address(request, pk):
     if request.method == 'POST':
         address = get_object_or_404(Address, pk=pk)
-        address.user_input = request.POST['user_input']
-        address.is_validated = False
-        address.save()
+        address.set_user_input(request.POST['user_input'])
         return HttpResponseRedirect(reverse('addman:address_detail',
                                             args=(address.id,)))
 
