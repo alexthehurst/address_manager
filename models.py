@@ -32,17 +32,14 @@ class Address(models.Model):
         (VALIDATED, 'Validated and deliverable'),
     )
 
-
-
-
     creation_time = models.DateTimeField('date created', default=timezone.now)
     address_set = models.ForeignKey(AddressSet)
     user_input = models.CharField(max_length=1000)
 
-    street = models.CharField(blank=True)
-    city = models.CharField(blank=True)
-    state = models.CharField(blank=True)
-    zip = models.CharField(blank=True)
+    street = models.CharField(blank=True, max_length=1000)
+    city = models.CharField(blank=True, max_length=1000)
+    state = models.CharField(blank=True, max_length=2)
+    zip = models.CharField(blank=True, max_length=5)
 
     status = models.CharField(max_length=10,
                               choices=STATUS_CHOICES,
