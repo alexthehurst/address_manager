@@ -18,11 +18,11 @@ class AddressSet(models.Model):
 
 class Address(models.Model):
 
-    UNPARSED = 'RAW'
-    FAILED = 'FAIL'
+    UNPARSED = 'UNPARSED'
+    FAILED = 'FAILED'
     WARN = 'WARN'
-    CONFIRMABLE = 'CONFIRM'
-    VALIDATED = 'DONE'
+    CONFIRMABLE = 'CONFIRMABLE'
+    VALIDATED = 'VALIDATED'
 
     STATUS_CHOICES = (
         (UNPARSED, 'Not yet processed'),
