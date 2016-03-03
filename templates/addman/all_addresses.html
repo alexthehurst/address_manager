@@ -37,9 +37,10 @@
             {% for address in all_addresses_list %}
                 <tr>
                     <td>{{ address.pk }}</td>
-                    <td>{{ address.user_input }}</td>
+                    <td><a href="{% url 'addman:address_detail' address.pk %}">{{ address.user_input }}</a></td>
                     <td>{{ address.creation_time }}</td>
                     <td>{{ address.address_set }}</td>
+                    <td>{{ address.status }}</td>
                 </tr>
             {% endfor %}
             </tbody>

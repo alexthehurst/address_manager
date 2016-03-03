@@ -16,9 +16,13 @@
         <li>
             Address set: {{ address.address_set }}
         </li>
-    <li>
-        Validated: {{ address.is_validated|yesno }}
-    </li>
+        <li>
+            Validated: {{ address.is_validated|yesno }}. <a href="{% url 'addman:validate' address.id %}">Validate</a>
+        </li>
+        <li>Status: {{ address.status }}</li>
+        <li>City: {{ address.city }}</li>
+        <li>Street: {{ address.street }}</li>
+        <li>Message: {{ address.message }}</li>
     </ul>
     <form method="post" action="{% url 'addman:update_address' address.id %}">
         {% csrf_token %}
