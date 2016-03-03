@@ -41,7 +41,7 @@ class Address(models.Model):
     state = models.CharField(blank=True, max_length=2)
     zip = models.CharField(blank=True, max_length=5)
 
-    status = models.CharField(max_length=10,
+    status = models.CharField(max_length=50,
                               choices=STATUS_CHOICES,
                               default=UNPARSED)
 
