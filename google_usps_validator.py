@@ -30,7 +30,7 @@ class GoogleUspsValidator(object):
         #     'zip': '11111',
         # }
         #
-        # self.message = 'Nice looking address!'
+        # self.message = 'Nice looking user_input!'
         # self.status = 'CONFIRM'
 
     def mapped(self, address):
