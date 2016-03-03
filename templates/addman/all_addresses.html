@@ -30,22 +30,30 @@
 
     {% if all_addresses_list %}
         <table class='table table-striped'>
-            <tbody>
+            <thead>
             <tr>
                 <th>Address ID</th>
                 <th>User input</th>
                 <th>Creation time</th>
                 <th>Address set</th>
+                <th>Validation Status</th>
             </tr>
-            {% for address in all_addresses_list %}
-                <tr>
-                    <td>{{ address.pk }}</td>
-                    <td><a href="{% url 'addman:address_detail' address.pk %}">{{ address.user_input }}</a></td>
-                    <td>{{ address.creation_time }}</td>
-                    <td>{{ address.address_set }}</td>
-                    <td>{{ address.status }}</td>
-                </tr>
-            {% endfor %}
+            </thead>
+            <tbody>
+                {% for address in all_addresses_list %}
+                    <tr>
+                        <td>{{ address.pk }}</td>
+                        <td>
+                            <a href="{% url 'addman:address_detail' address.pk %}">
+                                {{ address.user_input }}
+                            </a>
+                        </td>
+                        <td>{{ address.creation_time }}</td>
+                        <td>{{ address.address_set }}</td>
+                        <td>{{ address.status }}</td>
+                    </tr>
+                {% endfor %}
+
             </tbody>
         </table>
     {% else %}
