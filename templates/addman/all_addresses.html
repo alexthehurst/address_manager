@@ -37,6 +37,8 @@
                 <th>Creation time</th>
                 <th>Address set</th>
                 <th>Validation Status</th>
+                <th>Validation Message</th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>
@@ -51,6 +53,8 @@
                         <td>{{ address.creation_time }}</td>
                         <td>{{ address.address_set }}</td>
                         <td>{{ address.status }}</td>
+                        <td>{{ address.message }}</td>
+                        <td><a href="{% url 'addman:validate' address.pk %}">Validate</a></td>
                     </tr>
                 {% endfor %}
 
