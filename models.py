@@ -13,7 +13,7 @@ class AddressSet(models.Model):
     owner = models.CharField(max_length=30)
 
     def __str__(self):
-        return (self.set_name)
+        return self.set_name
 
 
 class Address(models.Model):
