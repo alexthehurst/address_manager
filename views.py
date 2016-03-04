@@ -28,6 +28,13 @@ def validate(request, pk):
                                             args=(address.id,)))
 
 
+def confirm(request, pk):
+    address = get_object_or_404(Address, pk=pk)
+    address.confirm_partial_match()
+    return HttpResponseRedirect(reverse('addman:address_detail',
+                                            args=(address.id,)))
+
+
 def update_address(request, pk):
     if request.method == 'POST':
         address = get_object_or_404(Address, pk=pk)

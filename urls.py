@@ -28,5 +28,10 @@ urlpatterns = [
         name='validate'
         ),
 
+    url(r'^confirm/(?P<pk>[0-9]+)/$',
+        views.confirm,
+        name='confirm'
+        ),
+
 	url(r'^bulk_import/', views.bulk_import_view, name='bulk_import'),
 ]

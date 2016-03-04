@@ -20,7 +20,12 @@
             Address set: {{ address.address_set }}
         </li>
         <li>
-            Validated: {{ address.is_validated|yesno }}. <a href="{% url 'addman:validate' address.id %}">Validate</a>
+            Status: {{ address.status }}
+            {% if address.status == 'MATCHED_PARTIAL' %}
+                <a href="{% url 'addman:confirm' address.id %}">Confirm</a>
+            {% elif address.status == 'UNSUBMITTED' %}
+                <a href="{% url 'addman:validate' address.id %}">Validate</a>
+            {% endif %}
         </li>
         <li>Status: {{ address.status }}</li>
         <li>City: {{ address.city }}</li>
