@@ -16,12 +16,14 @@ class GoogleUspsValidator(object):
 
         # Expect this to be the big messy dict returned by Google API.
         self.mapped_address = {}
+        self.mapped_lines = ()
 
     def validate(self):
 
         self.google_geocode()
 
         if self.status in [MAPPED, MAPPED_PARTIAL]:
+            self.extract_lines_from_google_address()
             self.usps_validate()
 
     def mapped(self, mapped_address):
@@ -125,6 +127,54 @@ class GoogleUspsValidator(object):
 
                 self.unsubmitted(message)
                 return
+
+    def extract_lines_from_google_address(self):
+        relevant_types = {'street_number',  # Street name
+                          'route',  # Street name
+                          'subpremise',  # Apartment number
+                          'administrative_area_level_1',  # State
+                          'locality',  # City
+                          'postal_code',  # ZIP
+                          }
+
+        my_components = {}
+
+        for gmap_component in self.mapped_address['address_components']:
+            component_types = gmap_component['types']
+            my_types = relevant_types.intersection(component_types)
+
+            if my_types:
+                # If this isn't true then I'm making bad assumptions about
+                # the API:
+                assert len(my_types) == 1
+
+                my_type = my_types.pop()
+                my_components[my_type] = gmap_component['long_name']
+
+        # Concatenate only the elements which are not empty. Can't predict
+        # which ones the Google API will return.
+        line_1 = ' '.join(
+            filter(
+                lambda x: x is not None,
+                [
+                    my_components.get('street_number'),
+                    my_components.get('route'),
+                    my_components.get('subpremise'),
+                ]
+            )
+        )
+        line_2 = ' '.join(
+            filter(
+                lambda x: x is not None,
+                [
+                    my_components.get('locality'),
+                    my_components.get('administrative_area_level_1'),
+                    my_components.get('postal_code'),
+                ]
+            )
+        )
+
+        self.mapped_lines = (line_1, line_2)
 
     def usps_validate(self):
         pass  # stub
