@@ -37,7 +37,8 @@ class Address(models.Model):
     street = models.CharField(blank=True, max_length=1000)
     city = models.CharField(blank=True, max_length=1000)
     state = models.CharField(blank=True, max_length=2)
-    zip = models.CharField(blank=True, max_length=5)
+    zip5 = models.CharField(blank=True, max_length=5)
+    zip4 = models.CharField(blank=True, max_length=4)
 
     status = models.CharField(max_length=50,
                               choices=STATUS_CHOICES,
@@ -52,10 +53,16 @@ class Address(models.Model):
 
     def validate(self):
         validator = GoogleUspsValidator(self.user_input)
-        result = validator.validate()
+        validator.validate()
 
         self.status = validator.status
         self.message = validator.message
+        self.street = validator.matched_street
+        self.city = validator.matched_city
+        self.state = validator.matched_state
+        self.zip5 = validator.matched_zip5
+        self.zip4 = validator.matched_zip4
+
         if self.status in ['MAPPED_PARTIAL', 'MAPPED']:
             self.street = validator.address['formatted_address']
         else:
