@@ -53,11 +53,12 @@ class Address(models.Model):
 
     def format_matched(self):
         assert self.status == self.MATCHED
-        return "{}\n{}, {} {}-{}".format(
+        return "{}<br />{}, {} {}{}{}".format(
             self.street,
             self.city,
             self.state,
             self.zip5,
+            "-" if self.zip4 else "",
             self.zip4,
         )
 
@@ -95,5 +96,6 @@ class Address(models.Model):
     def confirm_partial_match(self):
         assert (self.status == self.MATCHED_PARTIAL)
         self.status = self.MATCHED
+        self.message = "Address is fully matched and is deliverable."
 
         self.save()

@@ -8,7 +8,7 @@
 
 
 {% block page_content %}
-    <h1>Address {{ address.id }}</h1>
+    <h1>{{ address|safe }}</h1>
     <ul>
         <li>
             User input: {{ address.user_input }}
@@ -27,10 +27,12 @@
                 <a href="{% url 'addman:validate' address.id %}">Validate</a>
             {% endif %}
         </li>
-        <li>Status: {{ address.status }}</li>
-        <li>City: {{ address.city }}</li>
-        <li>Street: {{ address.street }}</li>
         <li>Message: {{ address.message }}</li>
+        <li>Street: {{ address.street }}</li>
+        <li>City: {{ address.city }}</li>
+        <li>State: {{ address.state }}</li>
+        <li>Zip5: {{ address.zip5 }}</li>
+        <li>Zip4: {{ address.zip4 }}</li>
     </ul>
     <form method="post" action="{% url 'addman:update_address' address.id %}">
         {% csrf_token %}
