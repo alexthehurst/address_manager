@@ -46,8 +46,6 @@ class Address(models.Model):
 
     message = models.TextField(blank=True)
 
-    is_validated = models.BooleanField(default=False)
-
     def __str__(self):
         return self.user_input
 
@@ -80,8 +78,10 @@ class Address(models.Model):
 
     def set_user_input(self, user_input):
         self.user_input = user_input
-        self.status = self.UNPARSED
-        self.is_validated = False
+
+        self.status = self.UNSUBMITTED
+        self.message = ''
+
         self.street = ''
         self.city = ''
         self.state = ''
