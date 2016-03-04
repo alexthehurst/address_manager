@@ -5,9 +5,14 @@ FAILED = 'FAILED'
 UNSUBMITTED = 'UNSUBMITTED'
 MAPPED = 'MAPPED'
 MAPPED_PARTIAL = 'MAPPED_PARTIAL'
+MATCHED = 'MATCHED'
+MATCHED_PARTIAL = 'MATCHED_PARTIAL'
 
 
 class GoogleUspsValidator(object):
+    # TODO: The instance variables got out of control here.
+    # I'd like to refactor this to pass around return values instead of holding
+    # instance variables.
     def __init__(self, user_input):
         self.key = settings.GOOGLE_API_KEY
         self.status = ''
@@ -17,6 +22,12 @@ class GoogleUspsValidator(object):
         # Expect this to be the big messy dict returned by Google API.
         self.mapped_address = {}
         self.mapped_lines = ()
+
+        self.matched_street = ''
+        self.matched_city = ''
+        self.matched_state = ''
+        self.matched_zip5 = ''
+        self.matched_zip4 = ''
 
     def validate(self):
 
@@ -48,8 +59,19 @@ class GoogleUspsValidator(object):
         self.message = message
         self.mapped_address = mapped_address
 
-    def matched(self):
-        pass
+    def matched_partial(self, result, message):
+        self.matched(result, message)
+        self.status = MATCHED_PARTIAL
+
+    def matched(self, result, message):
+        self.matched_street = result['address'].title()
+        self.matched_city = result['city'].title()
+        self.matched_state = result['state'].title()
+        self.matched_zip5 = result['zip5']
+        self.matched_zip4 = result['zip4']
+
+        self.message = message
+        self.status = MATCHED
 
     def google_geocode(self):
 
@@ -177,4 +199,32 @@ class GoogleUspsValidator(object):
         self.mapped_lines = (line_1, line_2)
 
     def usps_validate(self):
-        pass  # stub
+
+        line_1, line_2 = self.mapped_lines
+
+        from addman.pyusps import address_information
+        key = settings.USPS_API_KEY
+
+        data = {
+            'address': line_1,
+            'city': line_2
+        }
+
+        result = {}
+
+        try:
+            result = address_information.verify(key, data)
+        except ValueError as e:
+            self.failed(e.message)
+            return
+
+        if result.get('returntext'):
+            self.matched_partial(result, "(USPS): " + result.get('returntext'))
+
+        # Good USPS match, partial Google match
+        elif self.status == MAPPED_PARTIAL:
+            self.matched_partial(result, self.message)
+
+        else:
+            assert (self.status == MAPPED)  # Belt and suspenders
+            self.matched(result, "Address is fully matched and is deliverable.")
