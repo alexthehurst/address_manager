@@ -1,5 +1,7 @@
 import requests
-from django.conf import settings
+
+from django_project import settings
+from pyusps import address_information
 
 FAILED = 'FAILED'
 UNSUBMITTED = 'UNSUBMITTED'
@@ -202,7 +204,6 @@ class GoogleUspsValidator(object):
 
         line_1, line_2 = self.mapped_lines
 
-        from addman.pyusps import address_information
         key = settings.USPS_API_KEY
 
         data = {
