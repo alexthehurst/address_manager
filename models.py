@@ -46,7 +46,20 @@ class Address(models.Model):
     message = models.TextField(blank=True)
 
     def __str__(self):
-        return self.user_input
+        if self.status == self.MATCHED:
+            return self.format_matched()
+        else:
+            return self.user_input
+
+    def format_matched(self):
+        assert self.status == self.MATCHED
+        return "{}\n{}, {} {}-{}".format(
+            self.street,
+            self.city,
+            self.state,
+            self.zip5,
+            self.zip4,
+        )
 
     def validate(self):
 
@@ -76,5 +89,11 @@ class Address(models.Model):
         self.state = ''
         self.zip5 = ''
         self.zip4 = ''
+
+        self.save()
+
+    def confirm_partial_match(self):
+        assert (self.status == self.MATCHED_PARTIAL)
+        self.status = self.MATCHED
 
         self.save()
