@@ -68,7 +68,7 @@ class GoogleUspsValidator(object):
     def matched(self, result, message):
         self.matched_street = result['address'].title()
         self.matched_city = result['city'].title()
-        self.matched_state = result['state'].title()
+        self.matched_state = result['state']
         self.matched_zip5 = result['zip5']
         self.matched_zip4 = result['zip4']
 
