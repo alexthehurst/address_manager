@@ -142,9 +142,9 @@ class GoogleUspsValidator(object):
             else:  # Other error code
 
                 message = ('Google API call failed with status {}. ({})'.format(
-                      response['status'],
-                      response.get('error_message',
-                                   'No additional error message.'))
+                    response['status'],
+                    response.get('error_message',
+                                 'No additional error message.'))
                 )
 
                 self.unsubmitted(message)
