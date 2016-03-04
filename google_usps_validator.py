@@ -70,7 +70,7 @@ class GoogleUspsValidator(object):
         self.matched_city = result['city'].title()
         self.matched_state = result['state']
         self.matched_zip5 = result['zip5']
-        self.matched_zip4 = result['zip4']
+        self.matched_zip4 = result['zip4'] or ''
 
         self.message = message
         self.status = MATCHED
