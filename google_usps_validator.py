@@ -13,7 +13,9 @@ class GoogleUspsValidator(object):
         self.status = ''
         self.message = ''
         self.user_input = user_input
-        self.address = ''
+
+        # Expect this to be the big messy dict returned by Google API.
+        self.mapped_address = {}
 
     def validate(self):
 
@@ -22,40 +24,27 @@ class GoogleUspsValidator(object):
         if self.status in [MAPPED, MAPPED_PARTIAL]:
             self.usps_validate()
 
-
-        # self.data = {
-        #     'street': '556 Main St.',
-        #     'city': 'Milford',
-        #     'state': 'ID',
-        #     'zip': '11111',
-        # }
-        #
-        # self.message = 'Nice looking user_input!'
-        # self.status = 'CONFIRM'
-
-    def mapped(self, address):
+    def mapped(self, mapped_address):
         # Found a good match with Google Maps, but haven't done USPS yet.
         self.status = MAPPED
-        self.address = address
+        self.mapped_address = mapped_address
 
     def failed(self, message):
         # The user_input is not going to be resolvable as entered.
         self.status = FAILED
         self.message = message
-        self.address = []
 
     def unsubmitted(self, message):
         # We haven't had a valid gmaps response about this user_input yet.
         # Most likely an API call failed entirely.
         self.status = UNSUBMITTED
         self.message = message
-        self.address = []
 
-    def mapped_partial(self, message, address):
+    def mapped_partial(self, message, mapped_address):
         # Partial match from the Google Maps API.
         self.status = MAPPED_PARTIAL
         self.message = message
-        self.address = address
+        self.mapped_address = mapped_address
 
     def matched(self):
         pass
