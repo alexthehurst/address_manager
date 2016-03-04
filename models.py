@@ -18,18 +18,16 @@ class AddressSet(models.Model):
 
 class Address(models.Model):
 
-    UNPARSED = 'UNPARSED'
+    UNSUBMITTED = 'UNSUBMITTED'
     FAILED = 'FAILED'
-    WARN = 'WARN'
-    CONFIRMABLE = 'CONFIRMABLE'
-    VALIDATED = 'VALIDATED'
+    MATCHED_PARTIAL = 'MATCHED_PARTIAL'
+    MATCHED = 'MATCHED'
 
     STATUS_CHOICES = (
-        (UNPARSED, 'Not yet processed'),
+        (UNSUBMITTED, 'Not yet processed'),
         (FAILED, 'No match found'),
-        (WARN, 'Tentative match, may be undeliverable'),
-        (CONFIRMABLE, 'Tentative match, confirmation required'),
-        (VALIDATED, 'Validated and deliverable'),
+        (MATCHED_PARTIAL, 'Tentative match, confirmation required'),
+        (MATCHED, 'Validated and deliverable'),
     )
 
     creation_time = models.DateTimeField('date created', default=timezone.now)
@@ -43,7 +41,7 @@ class Address(models.Model):
 
     status = models.CharField(max_length=50,
                               choices=STATUS_CHOICES,
-                              default=UNPARSED)
+                              default=UNSUBMITTED)
 
     message = models.TextField(blank=True)
 
