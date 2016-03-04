@@ -62,20 +62,7 @@ class Address(models.Model):
         self.zip5 = validator.matched_zip5
         self.zip4 = validator.matched_zip4
 
-        if self.status in ['MAPPED_PARTIAL', 'MAPPED']:
-            self.street = validator.address['formatted_address']
-        else:
-            self.street = self.message
         self.save()
-
-
-        # self.street = processed_address.data['street']
-        # self.city = processed_address.data['city']
-        # self.state = processed_address.data['state']
-        # self.zip = processed_address.data['zip']
-        #
-        # self.validation_message = processed_address.message
-        # self.status = processed_address.status
 
     def set_user_input(self, user_input):
 
