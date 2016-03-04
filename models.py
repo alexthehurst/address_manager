@@ -17,7 +17,6 @@ class AddressSet(models.Model):
 
 
 class Address(models.Model):
-
     UNSUBMITTED = 'UNSUBMITTED'
     FAILED = 'FAILED'
     MATCHED_PARTIAL = 'MATCHED_PARTIAL'
@@ -50,11 +49,13 @@ class Address(models.Model):
         return self.user_input
 
     def validate(self):
+
         validator = GoogleUspsValidator(self.user_input)
         validator.validate()
 
         self.status = validator.status
         self.message = validator.message
+
         self.street = validator.matched_street
         self.city = validator.matched_city
         self.state = validator.matched_state
@@ -77,6 +78,7 @@ class Address(models.Model):
         # self.status = processed_address.status
 
     def set_user_input(self, user_input):
+
         self.user_input = user_input
 
         self.status = self.UNSUBMITTED
