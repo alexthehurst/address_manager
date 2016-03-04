@@ -175,6 +175,11 @@ class GoogleUspsValidator(object):
                 my_type = my_types.pop()
                 my_components[my_type] = gmap_component['long_name']
 
+        # USPS honors letter suite numbers when they're preceded by #.
+
+        if my_components.get('subpremise'):
+            my_components['subpremise'] = '# ' + my_components['subpremise']
+
         # Concatenate only the elements which are not empty. Can't predict
         # which ones the Google API will return.
         line_1 = ' '.join(
