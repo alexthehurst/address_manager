@@ -8,7 +8,13 @@
 
 
 {% block page_content %}
-    <h1>{{ address|safe }}</h1>
+    <h1 class="text-{{ address.status }}">{{ address|safe }}</h1>
+    <h2>Status: <span class="text-{{ address.status }}">{{ address.status|title }}.</span></h2>
+    {% if address.status == 'MATCHED_PARTIAL' %}
+        <a href="{% url 'addman:confirm' address.id %}">Confirm</a>
+    {% elif address.status == 'UNSUBMITTED' %}
+        <a href="{% url 'addman:validate' address.id %}">Validate</a>
+    {% endif %}
     <ul>
         <li>
             User input: {{ address.user_input }}
@@ -18,14 +24,6 @@
         </li>
         <li>
             Address set: {{ address.address_set }}
-        </li>
-        <li>
-            Status: {{ address.status }}
-            {% if address.status == 'MATCHED_PARTIAL' %}
-                <a href="{% url 'addman:confirm' address.id %}">Confirm</a>
-            {% elif address.status == 'UNSUBMITTED' %}
-                <a href="{% url 'addman:validate' address.id %}">Validate</a>
-            {% endif %}
         </li>
         <li>Message: {{ address.message }}</li>
         <li>Street: {{ address.street }}</li>

@@ -39,8 +39,7 @@
         <table id='addresses' class='table table-striped'>
             <thead>
             <tr>
-                <th>Address ID</th>
-                <th>User input</th>
+                <th>Address</th>
                 <th>Creation time</th>
                 <th>Address set</th>
                 <th>Validation Status</th>
@@ -51,10 +50,9 @@
             <tbody>
                 {% for address in all_addresses_list %}
                     <tr>
-                        <td>{{ address.pk }}</td>
-                        <td>
-                            <a href="{% url 'addman:address_detail' address.pk %}">
-                                {{ address.user_input }}
+                        <td class="border-left-{{ address.status }}" >
+                            <a href="{% url 'addman:address_detail' address.pk %}" >
+                                {{ address|safe }}
                             </a>
                         </td>
                         <td>{{ address.creation_time }}</td>
