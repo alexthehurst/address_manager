@@ -91,7 +91,7 @@ class Address(models.Model):
         self.zip5 = ''
         self.zip4 = ''
 
-        self.save()
+        self.validate()
 
     def confirm_partial_match(self):
         assert (self.status == self.MATCHED_PARTIAL)
