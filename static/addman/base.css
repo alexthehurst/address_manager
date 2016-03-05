@@ -1,0 +1,31 @@
+.text-UNSUBMITTED {
+    color: #525252;
+}
+
+.text-FAILED {
+    color: #5c0000;
+}
+
+.text-MATCHED_PARTIAL {
+    color: #9a4d00
+}
+
+.text-MATCHED {
+    color: #075900;
+}
+
+.border-left-UNSUBMITTED {
+    border-left: 3px solid #525252;
+}
+
+.border-left-FAILED {
+    border-left: 3px solid #5c0000;
+}
+
+.border-left-MATCHED_PARTIAL {
+    border-left: 3px solid #9a4d00
+}
+
+.border-left-MATCHED {
+    border-left: 3px solid #075900;
+}
