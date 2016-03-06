@@ -4,7 +4,15 @@
 
     <script>
         $(document).ready(function () {
-            $("#addresses").DataTable();
+            $("#addresses").DataTable({
+                dom: 'Biltp',
+                buttons: [
+                    'copy',
+                    'csv',
+                    'excel',
+                    'pdf'
+                ]
+            });
         });
     </script>
 
@@ -68,5 +76,15 @@
     {% else %}
         <p>No addresses are available.</p>
     {% endif %}
+
+    <script src="https://cdn.datatables.net/buttons/1.1.2/js/dataTables.buttons.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.1.2/js/buttons.flash.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.1.2/js/buttons.html5.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.1.2/js/buttons.print.min.js"></script>
+    <link rel="stylesheet" href="
+https://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css">
 
 {% endblock %}
