@@ -1,8 +1,9 @@
+from django.core import serializers
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from .models import Address
 from .forms import BulkImportForm, AddressSetSelectForm, AddressUpdateForm
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 
@@ -27,6 +28,27 @@ def validate(request, pk):
     return HttpResponseRedirect(reverse('addman:address_detail',
                                             args=(address.id,)))
 
+
+def validate_async(request, pk):
+    address = get_object_or_404(Address, pk=pk)
+    address.validate()
+    # data = serializers.serialize('json', Address.objects.filter(id=pk))
+    # return data
+    # return JsonResponse(address, safe=False)
+
+    data = {
+        'id': pk,
+        'str': str(address),
+        'status': address.status,
+        'message': address.message,
+        'street': address.street,
+        'city': address.city,
+        'state': address.state,
+        'zip5': address.zip5,
+        'zip4': address.zip4,
+    }
+    import json
+    return HttpResponse(json.dumps(data), content_type="application/json")
 
 def confirm(request, pk):
     address = get_object_or_404(Address, pk=pk)

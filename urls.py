@@ -23,6 +23,11 @@ urlpatterns = [
         name='all_addresses'
     ),
 
+    url(r'^validate_async/(?P<pk>[0-9]+)/$',
+        views.validate_async,
+        name='validate_async'
+        ),
+
     url(r'^validate/(?P<pk>[0-9]+)/$',
         views.validate,
         name='validate'
