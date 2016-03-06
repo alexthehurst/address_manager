@@ -56,20 +56,20 @@
             </tr>
             </thead>
             <tbody>
-                {% for address in all_addresses_list %}
-                    <tr>
-                        <td class="border-left-{{ address.status }}" >
-                            <a href="{% url 'addman:address_detail' address.pk %}" >
-                                {{ address|safe }}
-                            </a>
-                        </td>
-                        <td>{{ address.creation_time }}</td>
-                        <td>{{ address.address_set }}</td>
-                        <td>{{ address.status }}</td>
-                        <td>{{ address.message }}</td>
-                        <td><a href="{% url 'addman:validate' address.pk %}">Validate</a></td>
-                    </tr>
-                {% endfor %}
+            {% for address in all_addresses_list %}
+                <tr>
+                    <td class="border-left-{{ address.status }}">
+                        <a href="{% url 'addman:address_detail' address.pk %}">
+                            {{ address|safe }}
+                        </a>
+                    </td>
+                    <td>{{ address.creation_time }}</td>
+                    <td>{{ address.address_set }}</td>
+                    <td>{{ address.status }}</td>
+                    <td>{{ address.message }}</td>
+                    <td class="validate-cell"><a href="#!">Validate</ah></td>
+                </tr>
+            {% endfor %}
 
             </tbody>
         </table>
