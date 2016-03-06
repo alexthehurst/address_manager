@@ -47,6 +47,7 @@
         <table id='addresses' class='table table-striped'>
             <thead>
             <tr>
+                <th>pk</th>
                 <th>Address</th>
                 <th>Creation time</th>
                 <th>Address set</th>
@@ -58,6 +59,7 @@
             <tbody>
             {% for address in all_addresses_list %}
                 <tr>
+                    <td>{{ address.id }}</td>
                     <td class="border-left-{{ address.status }}">
                         <a href="{% url 'addman:address_detail' address.pk %}">
                             {{ address|safe }}
