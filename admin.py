@@ -6,11 +6,11 @@ from .models import AddressSet
 
 
 class AddressAdmin(admin.ModelAdmin):
-    fieldsets = [
-        (None, {'fields': ['user_input']}),
-        (None, {'fields': ['is_validated']}),
-    ]
-    list_display = ('user_input', 'creation_time')
+    # fieldsets = [
+    #     (None, {'fields': ['user_input']}),
+    #     (None, {'fields': ['is_validated']}),
+    # ]
+    list_display = ('user_input', 'status', 'message', 'creation_time')
     list_filter = ('user_input',)
     search_fields = ('user_input',)
 
