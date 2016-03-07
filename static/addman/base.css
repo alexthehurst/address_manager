@@ -15,17 +15,17 @@
 }
 
 .border-left-UNSUBMITTED {
-    border-left: 3px solid #525252;
+    border-left: 3px solid #8b8b8b;
 }
 
 .border-left-FAILED {
-    border-left: 3px solid #5c0000;
+    border-left: 3px solid #bb0000;
 }
 
 .border-left-MATCHED_PARTIAL {
-    border-left: 3px solid #9a4d00
+    border-left: 3px solid #da6d00;
 }
 
 .border-left-MATCHED {
-    border-left: 3px solid #075900;
+    border-left: 3px solid #0bbc00;
 }
