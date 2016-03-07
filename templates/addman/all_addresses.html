@@ -3,17 +3,6 @@
 {% block head_extras %}
 
     <script>
-        $(document).ready(function () {
-            $("#addresses").DataTable({
-                dom: 'Biltp',
-                buttons: [
-                    'copy',
-                    'csv',
-                    'excel',
-                    'pdf'
-                ]
-            });
-        });
     </script>
 
 {% endblock %}
@@ -91,6 +80,18 @@ https://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css">
 
     <script type="text/javascript">
 
+        $(document).ready(function () {
+            $("#addresses").DataTable({
+                dom: 'Bilftp',
+                buttons: [
+                    'copy',
+                    'csv',
+                    'excel',
+                    'pdf'
+                ],
+
+            });
+
         $('#addresses tbody').on('click', '.validate-cell', function () {
             
             var table = $('#addresses').DataTable();
@@ -109,6 +110,7 @@ https://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css">
                 row.data(data);
             }, "json");
 
+        });
         });
     </script>
 
