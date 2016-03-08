@@ -109,6 +109,7 @@ class Address(models.Model):
     def confirm_partial_match(self):
         assert (self.status == self.MATCHED_PARTIAL)
         self.status = self.MATCHED
-        self.message = "Address is fully matched and is deliverable."
+        self.message = "Address is matched and deliverable. Close match was " \
+                       "confirmed by the user."
 
         self.save()
