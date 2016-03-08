@@ -29,3 +29,13 @@
 .border-left-MATCHED {
     border-left: 3px solid #0bbc00;
 }
+
+.previous-input {
+    color: #777777;
+    font-style: italic;
+    font-size: smaller;
+}
+
+.address hr {
+    margin: 5px 0;
+}
