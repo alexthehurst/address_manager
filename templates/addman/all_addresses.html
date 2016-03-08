@@ -144,9 +144,11 @@ https://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css">
             var status = full[4];
 
             if (full[4] === "MATCHED_PARTIAL") {
-                composedCell = full[8] +
+                composedCell = "<a href='/detail/" + full[0] + "'>" +
+                        full[8] +
                         "<br />" +
                         line2(full[10], full[11], full[12], full[13]) +
+                        "</a>" +
                         "<br />" +
                         "<span class='previous-input'>" +
                         full[7] +
@@ -252,7 +254,6 @@ https://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css">
                     data[4] = resp.status;
                     data[5] = resp.message;
                     data[8] = resp.street;
-                    data[9] = resp.line2;
                     data[10] = resp.city;
                     data[11] = resp.state;
                     data[12] = resp.zip5;
