@@ -82,11 +82,10 @@ https://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css">
 
         function updateStatusClasses() {
             $("#addresses tbody tr").each(function () {
-                var status = $(this).children("td:nth-child(5)").text();
+                var status = $(this).children("td:nth-child(4)").text();
                 $(this).children("td:first-child").addClass("border-left-" + status)
             });
         }
-        ;
 
         $(document).ready(function () {
             $("#addresses").DataTable({
@@ -97,7 +96,12 @@ https://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css">
                     'excel',
                     'pdf'
                 ],
-
+                'columnDefs': [
+                    {
+                        'targets': [0],
+                        'visible': false,
+                    }
+                ],
             });
 
             $('#addresses tbody').on('click', '.validate-cell', function () {
