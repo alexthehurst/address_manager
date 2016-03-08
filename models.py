@@ -79,6 +79,18 @@ class Address(models.Model):
 
         self.save()
 
+    def line2(self):
+        if self.status in ['MATCHED', 'MATCHED_PARTIAL']:
+            return "{}, {} {}{}{}".format(
+                self.city,
+                self.state,
+                self.zip5,
+                "-" if self.zip4 else "",
+                self.zip4,
+            )
+        else:
+            return ''
+
     def set_user_input(self, user_input):
 
         self.user_input = user_input
