@@ -20,17 +20,22 @@
     {% endif %}
 
 
+    <div class="row">
+        <div class="col-sm-12">
+            <form action="{% url 'addman:all_addresses' %}" method="get" class="form-inline">
 
-    <form action="{% url 'addman:all_addresses' %}" method="get">
+                <div class="form-group center-block">
 
-        <div class="form-group">
+                    {{ address_set_select_form }}
 
-            {{ address_set_select_form }}
+                    <input type="submit" class="btn btn-primary" value="Change"/>
+
+                </div>
+            </form>
+
         </div>
-
-
-        <input type="submit" class="btn btn-primary" value="Change"/>
-    </form>
+    </div>
+    <hr>
 
     {% if all_addresses_list %}
         <table id='addresses' class='table table-striped'>
