@@ -1,4 +1,5 @@
 {% extends "addman/base.html" %}
+{% load staticfiles %}
 
 {% block title %}
     Address Import
@@ -6,7 +7,20 @@
 
 {% block page_content %}
 
-    <p>This is the bulk import page.</p>
+    <p>Here you can import your address data. If you don't have any raw address data handy, you can use one of these example sets:</p>
+    <ul>
+        <li>Virginia business registration records from <a href="https://vabusinesses.org">Virginia Businesses</a> (229,000 CSV records:
+            <a href="{% static 'addman/va_zip.zip' %}">ZIP</a>)</li>
+        <ul>
+            <li><a href="{% static 'addman/va_50.txt' %}">The first 50 records</a> (txt)</li>
+            <li><a href="{% static 'addman/va_100.txt' %}">The next 100 records</a> (txt)</li>
+            <li><a href="{% static 'addman/va_200.txt' %}">The next 200 records</a> (txt)</li>
+        </ul>
+        <li>More records</li>
+        <li>More records</li>
+        <li>More records</li>
+        <li>More records</li>
+    </ul>
 
     {% if messages %}
         {% for message in messages %}
