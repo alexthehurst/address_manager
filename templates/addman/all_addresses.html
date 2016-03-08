@@ -48,16 +48,16 @@
             <tbody>
             {% for address in all_addresses_list %}
                 <tr>
-                    <td>{{ address.id }}</td>
-                    <td class="border-left-{{ address.status }}">
+                    <td class="id">{{ address.id }}</td>
+                    <td class="address border-left-{{ address.status }}">
                         <a href="{% url 'addman:address_detail' address.pk %}">
                             {{ address|safe }}
                         </a>
                     </td>
-                    <td>{{ address.creation_time }}</td>
-                    <td>{{ address.address_set }}</td>
-                    <td>{{ address.status }}</td>
-                    <td>{{ address.message }}</td>
+                    <td class="creation_time">{{ address.creation_time }}</tdclass>
+                    <td class="address_set">{{ address.address_set }}</td>
+                    <td class="status">{{ address.status }}</td>
+                    <td class="mesage">{{ address.message }}</td>
                     <td class="validate-cell"><a href="#!">Validate</ah></td>
                 </tr>
             {% endfor %}
@@ -82,7 +82,7 @@ https://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css">
 
         function updateStatusClasses() {
             $("#addresses tbody tr").each(function () {
-                var status = $(this).children("td:nth-child(4)").text();
+                var status = $(this).children(".status").text();
                 $(this).children("td:first-child").addClass("border-left-" + status)
             });
         }
