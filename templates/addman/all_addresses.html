@@ -80,6 +80,13 @@ https://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css">
 
     <script type="text/javascript">
 
+        function updateStatusClasses() {
+            $("#addresses tbody tr").each(function () {
+                var status = $(this).children("td:nth-child(5)").text();
+                $(this).children("td:first-child").addClass("border-left-" + status)
+            });
+        };
+
         $(document).ready(function () {
             $("#addresses").DataTable({
                 dom: 'Bilftp',
@@ -94,6 +101,7 @@ https://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css">
 
         $('#addresses tbody').on('click', '.validate-cell', function () {
             
+
             var table = $('#addresses').DataTable();
             var row = table.row(this);
             var data = row.data();
@@ -108,6 +116,7 @@ https://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css">
                 data[4] = resp.status;
                 data[5] = resp.message;
                 row.data(data);
+                updateStatusClasses();
             }, "json");
 
         });
