@@ -84,20 +84,32 @@ class AllAddressesView(generic.ListView):
         """Return all the addresses in the database by default, or only the
         ones in the specified set."""
         request = self.request
-        form = AddressSetSelectForm(request.GET)
-        if not form.is_valid():
-            pass  # TODO: set an error message
-            return Address.objects.all()
+        if 'address_set_select' in request.GET:
+            form = AddressSetSelectForm(request.GET)
+
+            if not form.is_valid():
+                return Address.objects.none()
+            # return rows
+            if form.cleaned_data['address_set_select'] == 'All':
+                return Address.objects.all()
+            else:
+                return Address.objects.filter(address_set_id=
+                                              form.cleaned_data[
+                                                  'address_set_select'])
         else:
-            return Address.objects.filter(address_set_id=
-                                          form.cleaned_data[
-                                              'address_set_select'])
+            return Address.objects.none()
 
     def get_context_data(self, **kwargs):
         # per https://docs.djangoproject.com/en/1.8/topics/class-based-views
         # /generic-display/
         context = super(AllAddressesView, self).get_context_data(**kwargs)
-        context['address_set_select_form'] = AddressSetSelectForm()  # unbound
+
+        if 'address_set_select' in self.request.GET:
+            form = AddressSetSelectForm(self.request.GET)
+        else:
+            form = AddressSetSelectForm()  # unbound
+
+        context['address_set_select_form'] = form
         return context
 
 
@@ -126,7 +138,7 @@ def bulk_import_view(request):
                                   'addman/bulk_import.html',
                                   context={'form': form,},
                                   )
-            messages.success(request, "Thanks for the submission."
+            messages.success(request, "Thanks for the submission. "
                                       "Those addresses have been imported.")
             return HttpResponseRedirect(reverse('addman:all_addresses'))
 
