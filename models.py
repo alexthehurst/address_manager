@@ -63,6 +63,7 @@ class Address(models.Model):
         )
 
     def validate(self):
+        assert self.status == self.UNSUBMITTED
 
         validator = GoogleUspsValidator(self.user_input)
         validator.validate()
