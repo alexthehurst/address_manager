@@ -258,6 +258,28 @@ https://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css">
                 }, "json");
 
             });
+
+            $('#addresses tbody').on('click', '.action-MATCHED_PARTIAL', function () {
+
+                var table = $('#addresses').DataTable({"retrieve": true});
+                var row = table.row(this);
+                var data = row.data();
+                var pk = data[0];
+                var url = '/confirm_async/' + pk + '/';
+
+                $.get(url, function (resp) {
+                    data[1] = '<a href="/detail/' + resp.id + '">'
+                            + resp.str
+                            + '</a>';
+                    data[4] = resp.status;
+                    data[5] = resp.message;
+                    data[6] = actionCellContent(resp.id, resp.status);
+                    data[14] = resp.str;
+                    row.data(data);
+                    updateStatusClasses();
+                }, "json");
+
+            });
         });
     </script>
 

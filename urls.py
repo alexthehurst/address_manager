@@ -38,5 +38,10 @@ urlpatterns = [
         name='confirm'
         ),
 
+    url(r'^confirm_async/(?P<pk>[0-9]+)/$',
+        views.confirm_async,
+        name='confirm_async'
+        ),
+
 	url(r'^bulk_import/', views.bulk_import_view, name='bulk_import'),
 ]

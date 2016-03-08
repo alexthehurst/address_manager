@@ -6,6 +6,7 @@ from .forms import BulkImportForm, AddressSetSelectForm, AddressUpdateForm
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib import messages
+import json
 
 
 # Create your views here.
@@ -47,14 +48,24 @@ def validate_async(request, pk):
         'zip5': address.zip5,
         'zip4': address.zip4,
     }
-    import json
     return HttpResponse(json.dumps(data), content_type="application/json")
 
 def confirm(request, pk):
     address = get_object_or_404(Address, pk=pk)
     address.confirm_partial_match()
     return HttpResponseRedirect(reverse('addman:address_detail',
-                                            args=(address.id,)))
+                                        args=(address.id,)))
+
+def confirm_async(request, pk):
+    address = get_object_or_404(Address, pk=pk)
+    address.confirm_partial_match()
+    data = {
+        'id': pk,
+        'status': address.status,
+        'message': address.message,
+        'str': str(address),
+    }
+    return HttpResponse(json.dumps(data), content_type="application/json")
 
 
 def update_address(request, pk):
