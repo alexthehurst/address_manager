@@ -36,13 +36,21 @@
         <table id='addresses' class='table table-striped'>
             <thead>
             <tr>
-                <th>pk</th>
-                <th>Address</th>
-                <th>Creation time</th>
-                <th>Address set</th>
-                <th>Validation Status</th>
-                <th>Validation Message</th>
-                <th>Action</th>
+                <th class="id">pk</th>
+                <th class="address">Address</th>
+                <th class="creation_time">Creation time</th>
+                <th class="address_set">Set</th>
+                <th class="status">Validation Status</th>
+                <th class="message">Validation Message</th>
+                <th class="action">Action</th>
+                <th class="user_input">user_input</th>
+                <th class="street">street</th>
+                <th class="line2">line2</th>
+                <th class="city">city</th>
+                <th class="state">state</th>
+                <th class="zip5">zip5</th>
+                <th class="zip4">zip4</th>
+                <th class="str">str</th>
             </tr>
             </thead>
             <tbody>
@@ -54,11 +62,19 @@
                             {{ address|safe }}
                         </a>
                     </td>
-                    <td class="creation_time">{{ address.creation_time }}</tdclass>
+                    <td class="creation_time">{{ address.creation_time }}</td>
                     <td class="address_set">{{ address.address_set }}</td>
                     <td class="status">{{ address.status }}</td>
-                    <td class="mesage">{{ address.message }}</td>
-                    <td class="validate-cell"><a href="#!">Validate</ah></td>
+                    <td class="message">{{ address.message }}</td>
+                    <td class="action action-{{ address.status }}"></td>
+                    <td class="user_input">{{ address.user_input }}</td>
+                    <td class="street">{{ address.street }}</td>
+                    <td class="line2">{{ address.line2 }}</td>
+                    <td class="city">{{ address.city }}</td>
+                    <td class="state">{{ address.state }}</td>
+                    <td class="zip5">{{ address.zip5 }}</td>
+                    <td class="zip4">{{ address.zip4 }}</td>
+                    <td class="str">{{ address }}</td>
                 </tr>
             {% endfor %}
 
@@ -69,6 +85,7 @@
     {% endif %}
 
     <script src="https://cdn.datatables.net/buttons/1.1.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.1.2/js/buttons.bootstrap.min.js"></script>
     <script src="//cdn.datatables.net/buttons/1.1.2/js/buttons.flash.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
     <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
@@ -83,42 +100,159 @@ https://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css">
         function updateStatusClasses() {
             $("#addresses tbody tr").each(function () {
                 var status = $(this).children(".status").text();
-                $(this).children("td:first-child").addClass("border-left-" + status)
+                $(this)
+                        .children("td:first-child")
+                        .removeClass("border-left-UNSUBMITTED border-left-FAILED border-left-MATCHED_PARTIAL border-left-MATCHED")
+                        .addClass("border-left-" + status);
+                $(this)
+                        .children("td.action")
+                        .removeClass("action-UNSUBMITTED action-FAILED action-MATCHED_PARTIAL action-MATCHED")
+                        .addClass("action-" + status);
             });
         }
 
-        $(document).ready(function () {
-            $("#addresses").DataTable({
-                dom: 'Bilftp',
-                buttons: [
-                    'copy',
-                    'csv',
-                    'excel',
-                    'pdf'
-                ],
-                'columnDefs': [
-                    {
-                        'targets': [0],
-                        'visible': false,
+        function line2(city, state, zip5, zip4) {
+            line = city + ", " + state + " " + zip5;
+            if (zip4) {
+                line += "-";
+                line += zip4;
+            }
+            return line;
+        }
+
+        function actionCellContent(id, status) {
+
+            var contents = {
+                'FAILED': '<a href="/detail/' + id + '">Edit</a>',
+                'MATCHED_PARTIAL': '<a href="#!">Confirm</a>',
+                'MATCHED': '<a href="/detail/' + id + '">Edit</a>',
+                'UNSUBMITTED': '<a href="#!">Validate</a>',
+            };
+            return contents[status];
+
+        }
+
+
+        function addressCellContent(data, type, full, meta) {
+
+            var composedCell = 'sample';
+            var status = full[4];
+
+            if (full[4] === "MATCHED_PARTIAL") {
+                composedCell = full[8] +
+                        "<br />" +
+                        line2(full[10], full[11], full[12], full[13]) +
+                        "<br />" +
+                        "<span class='previous-input'>" +
+                        full[7] +
+                        "</span>";
+            } else {
+                composedCell = data;
+            }
+            return composedCell;
+        }
+
+        var hiddenColumns = [
+            'id',
+            'creation_time',
+            'user_input',
+            'street',
+            'line2',
+            'city',
+            'state',
+            'zip5',
+            'zip4',
+            'str',
+        ];
+
+        var exportColumnSelectors = [
+            '.id',
+            '.street',
+            '.line2',
+            '.city',
+            '.state',
+            '.zip5',
+            '.zip4',
+            '.status',
+            '.message',
+            '.user_input'
+        ]
+
+        var dataTableSettings = {
+            {#            dom: 'iBftlp',#}
+            dom: "<'row'<'col-sm-4'i><'col-sm-4'B><'col-sm-4'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                 "<'row'<'col-sm-7'p>>",
+            buttons: [
+                {
+                    extend: 'copyHtml5',
+                    exportOptions: {columns: exportColumnSelectors}
+                },
+
+                {
+                    extend: 'pdfHtml5',
+                    exportOptions: {columns: exportColumnSelectors}
+                },
+
+                {
+                    extend: 'csvHtml5',
+                    exportOptions: {columns: exportColumnSelectors}
+                },
+            ],
+
+            'columnDefs': [
+                {
+                    'targets': hiddenColumns,
+                    'visible': false,
+                },
+                {
+                    'targets': ['address'],
+                    'render': addressCellContent,
+                    'width': '16em',
+                },
+                {
+                    'targets': ['action'],
+                    'render': function (data, type, full, meta) {
+                        var id = full[0];
+                        var status = full[4];
+                        return actionCellContent(id, status);
                     }
-                ],
-            });
+                }
+            ],
+            'lengthMenu': [
+                [50, 100, 1000, -1],
+                [50, 100, 1000, 'All'],
+            ],
+            'pageLength': 50,
 
-            $('#addresses tbody').on('click', '.validate-cell', function () {
+        }
 
-                var table = $('#addresses').DataTable();
+        $(document).ready(function () {
+            $("#addresses").DataTable(dataTableSettings);
+
+            updateStatusClasses();
+
+            $('#addresses tbody').on('click', '.action-UNSUBMITTED', function () {
+
+                var table = $('#addresses').DataTable({"retrieve": true});
                 var row = table.row(this);
                 var data = row.data();
                 var pk = data[0];
                 var url = '/validate_async/' + pk + '/';
 
                 $.get(url, function (resp) {
-                    data[1] = resp.str;
                     data[1] = '<a href="/detail/' + resp.id + '">'
                             + resp.str
                             + '</a>';
                     data[4] = resp.status;
                     data[5] = resp.message;
+                    data[8] = resp.street;
+                    data[9] = resp.line2;
+                    data[10] = resp.city;
+                    data[11] = resp.state;
+                    data[12] = resp.zip5;
+                    data[13] = resp.zip4;
+                    data[14] = resp.str;
                     row.data(data);
                     updateStatusClasses();
                 }, "json");
