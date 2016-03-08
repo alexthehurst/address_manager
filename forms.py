@@ -73,7 +73,7 @@ class AddressUpdateForm(forms.Form):
                                      "class": "form-control",
                                  }),
                                  label="Update the user input here (note: this "
-                                       "will devalidate the address)",
+                                       "will invalidate the address)",
                                  validators=[
                                      validate_field_line_length,
                                  ],

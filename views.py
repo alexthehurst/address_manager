@@ -19,7 +19,9 @@ class AddressDetailView(generic.DetailView):
         # per https://docs.djangoproject.com/en/1.8/topics/class-based-views
         # /generic-display/
         context = super(AddressDetailView, self).get_context_data(**kwargs)
-        context['address_update_form'] = AddressUpdateForm()  # unbound
+        context['address_update_form'] = AddressUpdateForm({'user_input':
+                                                                self.get_object().user_input})
+
         return context
 
 
@@ -140,7 +142,9 @@ def bulk_import_view(request):
                                   )
             messages.success(request, "Thanks for the submission. "
                                       "Those addresses have been imported.")
-            return HttpResponseRedirect(reverse('addman:all_addresses'))
+            return HttpResponseRedirect("{url}?address_set_select={set}".format(
+                url=reverse('addman:all_addresses'),
+                set=address_set_id))
 
     else:  # GET
         form = BulkImportForm()
