@@ -85,7 +85,8 @@ https://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css">
                 var status = $(this).children("td:nth-child(5)").text();
                 $(this).children("td:first-child").addClass("border-left-" + status)
             });
-        };
+        }
+        ;
 
         $(document).ready(function () {
             $("#addresses").DataTable({
@@ -99,27 +100,26 @@ https://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css">
 
             });
 
-        $('#addresses tbody').on('click', '.validate-cell', function () {
-            
+            $('#addresses tbody').on('click', '.validate-cell', function () {
 
-            var table = $('#addresses').DataTable();
-            var row = table.row(this);
-            var data = row.data();
-            var pk = data[0];
-            var url = '/validate_async/' + pk + '/';
+                var table = $('#addresses').DataTable();
+                var row = table.row(this);
+                var data = row.data();
+                var pk = data[0];
+                var url = '/validate_async/' + pk + '/';
 
-            $.get(url, function (resp) {
-                data[1] = resp.str;
-                data[1] = '<a href="/detail/' + resp.id + '">'
-                        + resp.str
-                        + '</a>';
-                data[4] = resp.status;
-                data[5] = resp.message;
-                row.data(data);
-                updateStatusClasses();
-            }, "json");
+                $.get(url, function (resp) {
+                    data[1] = resp.str;
+                    data[1] = '<a href="/detail/' + resp.id + '">'
+                            + resp.str
+                            + '</a>';
+                    data[4] = resp.status;
+                    data[5] = resp.message;
+                    row.data(data);
+                    updateStatusClasses();
+                }, "json");
 
-        });
+            });
         });
     </script>
 
