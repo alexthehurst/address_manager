@@ -46,13 +46,13 @@ class Address(models.Model):
     message = models.TextField(blank=True)
 
     def __str__(self):
-        if self.status == self.MATCHED:
+        if self.status in [ self.MATCHED, self.MATCHED_PARTIAL ]:
             return self.format_matched()
         else:
             return self.user_input
 
     def format_matched(self):
-        assert self.status == self.MATCHED
+        assert self.status in [ self.MATCHED, self.MATCHED_PARTIAL ]
         return "{}<br />{}, {} {}{}{}".format(
             self.street,
             self.city,
