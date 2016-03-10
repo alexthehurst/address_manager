@@ -13,7 +13,8 @@ class AddressSet(models.Model):
     owner = models.CharField(max_length=30)
 
     def __str__(self):
-        return self.set_name
+        return "{} ({} records)".format(self.set_name,
+                                        len(self.address_set.all()))
 
 
 class Address(models.Model):
