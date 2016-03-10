@@ -14,6 +14,6 @@ Address Manager has these features:
 - Safe matching: if an address has a likely match which may not be correct, the user can review both addresses side-by-side and either confirm the match or edit the original input
 - Discrete sets of addresses: The user can handle multiple different sets of addresses by specifying which to import to, and which to view on the overview page. (As of the 03-08-16 release, address sets must be created manually through the Django admin interface.)
 
-Address manager's source is hosted on [GitHub](https://github.com/alexthehurst/address_manager), and the app itself is hosted at <http://addressmanager.alexthehurst.com>.
+Address Manager's source is hosted on [GitHub](https://github.com/alexthehurst/address_manager), and the app itself is hosted at <http://addressmanager.alexthehurst.com>.
 
 The project makes use of [pyusps](https://github.com/thelinuxkid/pyusps) by Andres Buritica.
