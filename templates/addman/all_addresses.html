@@ -86,7 +86,7 @@
             </tbody>
         </table>
     {% else %}
-        <p>No addresses are available.</p>
+        <p>No addresses are available. Perhaps you'd like to select a populated set above, or <a href="{% url 'addman:bulk_import' %}">get started by importing some?</a></p>
     {% endif %}
 
     <script src="https://cdn.datatables.net/buttons/1.1.2/js/dataTables.buttons.min.js"></script>
