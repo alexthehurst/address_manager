@@ -22,13 +22,25 @@
 
     <div class="row">
         <div class="col-sm-12">
-            <form action="{% url 'addman:all_addresses' %}" method="get" class="form-inline">
+            <form action="{% url 'addman:all_addresses' %}" method="get" class="form-horizontal">
 
-                <div class="form-group center-block">
+                <div class="form-group ">
 
-                    {{ address_set_select_form }}
+                    <label for="{{ address_set_select_form.address_set_select.id_for_label }}"
+                           class="col-sm-5 text-right">
+                        {{ address_set_select_form.address_set_select.label }}
+                    </label>
 
-                    <input type="submit" class="btn btn-primary" value="Change"/>
+                    <div class="col-sm-7">
+                        {{ address_set_select_form.address_set_select }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-7 col-sm-offset-5">
+
+                        <input type="submit" class="btn btn-primary" value="Change"/>
+                    </div>
+
 
                 </div>
             </form>
@@ -86,7 +98,8 @@
             </tbody>
         </table>
     {% else %}
-        <p>No addresses are available. Perhaps you'd like to select a populated set above, or <a href="{% url 'addman:bulk_import' %}">get started by importing some?</a></p>
+        <p>No addresses are available. Perhaps you'd like to select a populated set above, or <a
+                href="{% url 'addman:bulk_import' %}">get started by importing some?</a></p>
     {% endif %}
 
     <script src="https://cdn.datatables.net/buttons/1.1.2/js/dataTables.buttons.min.js"></script>
