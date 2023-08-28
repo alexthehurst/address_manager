@@ -10,7 +10,7 @@ Address Manager has these features:
 - Import your address data in any text format by pasting. No need to pre-separate the address components or meet a strict file upload specification.
 - Manage validation, review, and confirmation all from the main page without reloading.
 - Robust parsing and fuzzy-matching of unstructured data using Google's geocoding API
-- Trustworty verification that addresses are deliverable using USPS's address API
+- Trustworthy verification that addresses are deliverable using USPS's address API
 - Safe matching: if an address has a likely match which may not be correct, the user can review both addresses side-by-side and either confirm the match or edit the original input
 - Discrete sets of addresses: The user can handle multiple different sets of addresses by specifying which to import to, and which to view on the overview page. (As of the 03-08-16 release, address sets must be created manually through the Django admin interface.)
 
